@@ -9,27 +9,23 @@ window.addEventListener('DOMContentLoaded', function() {
     // Webkit/blink browsers need prefix, Safari won't work without window.
 
     var oscillator;
-    
-    // Check whether the DeviceMotionEvent is supported
-    if (window.DeviceMotionEvent) {
 
-        // Add a listener for the devicemotion event
-        window.ondevicemotion = function (deviceMotionEvent) {
+    // Add a listener for the devicemotion event
+    window.ondevicemotion = function (deviceMotionEvent) {
 
-           if(oscillator == null) return;
+        if(oscillator == null) return;
 
-            // Get acceleration on x, y and z axis
-            var x = deviceMotionEvent.accelerationIncludingGravity.x;
-            var y = deviceMotionEvent.accelerationIncludingGravity.y;
-            var z = deviceMotionEvent.accelerationIncludingGravity.z;
+        // Get acceleration on x, y and z axis
+        var x = deviceMotionEvent.accelerationIncludingGravity.x;
+        var y = deviceMotionEvent.accelerationIncludingGravity.y;
+        var z = deviceMotionEvent.accelerationIncludingGravity.z;
 
-            var value = -(x + y + z) * 10 + 400;
-            if(value < 100) value = 100;
-            if(value > 1000) value = 1000;
-            
-            oscillator.frequency.value = value;
-        };
-    }
+        var value = -(x + y + z) * 10 + 400;
+        if(value < 100) value = 100;
+        if(value > 1000) value = 1000;
+
+        oscillator.frequency.value = value;
+    };
     
     start.addEventListener('touchstart', function(){
         oscillator = audioContext.createOscillator();
