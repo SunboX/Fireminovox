@@ -1,0 +1,29 @@
+{
+  "version": "0.1.0",
+  "name": "Fireminovox",
+  "description": "A Firefox OS electronic musical instrument",
+  "launch_path": "/index.html",
+  "icons": {
+    "16": "/img/icons/icon16x16.png",
+    "48": "/img/icons/icon48x48.png",
+    "60": "/img/icons/icon60x60.png",
+    "128": "/img/icons/icon128x128.png"
+  },
+  "developer": {
+    "name": "André Fiedler",
+    "url": "https://github.com/SunboX/Fireminovox"
+  },
+  "type": "privileged",
+  "permissions": {},
+  "installs_allowed_from": [
+    "*"
+  ],
+  "locales": {
+    "de": {
+      "name": "Fireminovox",
+      "description": "Ein elektronisches Firefox OS Musikinstrument",
+      "permissions": {}
+    }
+  },
+  "default_locale": "en"
+}
