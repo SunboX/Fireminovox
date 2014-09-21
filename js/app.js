@@ -7,6 +7,30 @@ window.addEventListener('DOMContentLoaded', function() {
 
     var audioContext = new(window.AudioContext || window.webkitAudioContext)(); // define audio context
     // Webkit/blink browsers need prefix, Safari won't work without window.
+    
+    var SlapbackDelay = function(){
+        this.input = audioContext.createGain();
+        var output = audioContext.createGain(),
+            delay = audioContext.createDelay(),
+            feedback = audioContext.createGain(),
+            wetLevel = audioContext.createGain();
+
+        delay.delayTime.value = 0.2; //150 ms delay
+        feedback.gain.value = 0.3;
+        wetLevel.gain.value = 0.5;
+
+        //set up the routing
+        this.input.connect(delay);
+        this.input.connect(output);
+        delay.connect(feedback);
+        delay.connect(wetLevel);
+        feedback.connect(delay);
+        wetLevel.connect(output);
+
+        this.connect = function(target){
+           output.connect(target);
+        };
+    };
 
     var oscillator;
 
@@ -31,7 +55,9 @@ window.addEventListener('DOMContentLoaded', function() {
         oscillator = audioContext.createOscillator();
         oscillator.type = 'triangle';
         oscillator.frequency.value = 100;
-        oscillator.connect(audioContext.destination);
+        var sbd = new SlapbackDelay();
+        oscillator.connect(sbd.input);
+        sbd.connect(audioContext.destination);
         oscillator.start(0);
         start.hidden = true;
         stop.hidden = false;
