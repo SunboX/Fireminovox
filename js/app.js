@@ -10,6 +10,7 @@ window.addEventListener('DOMContentLoaded', function() {
     
     var SlapbackDelay = function(){
         this.input = audioContext.createGain();
+        
         var output = audioContext.createGain(),
             delay = audioContext.createDelay(),
             feedback = audioContext.createGain(),
@@ -33,6 +34,9 @@ window.addEventListener('DOMContentLoaded', function() {
     };
 
     var oscillator;
+    
+    var slapbackDelay = new SlapbackDelay();
+    slapbackDelay.connect(audioContext.destination);
 
     // Add a listener for the devicemotion event
     window.ondevicemotion = function (deviceMotionEvent) {
@@ -55,10 +59,9 @@ window.addEventListener('DOMContentLoaded', function() {
         oscillator = audioContext.createOscillator();
         oscillator.type = 'triangle';
         oscillator.frequency.value = 100;
-        var sbd = new SlapbackDelay();
-        oscillator.connect(sbd.input);
-        sbd.connect(audioContext.destination);
+        oscillator.connect(slapbackDelay.input);
         oscillator.start(0);
+        
         start.hidden = true;
         stop.hidden = false;
     }, false);
@@ -66,6 +69,7 @@ window.addEventListener('DOMContentLoaded', function() {
     stop.addEventListener('touchstart', function(){
         oscillator.stop(0);
         oscillator = null;
+        
         start.hidden = false;
         stop.hidden = true;
     }, false);
